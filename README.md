@@ -21,6 +21,9 @@ P
 ```
 Developed by: RIYA P L
 Reg no: 212223240141
+
+client:
+
 import socket 
 s=socket.socket() 
 s.bind(('localhost',8000)) 
@@ -32,23 +35,55 @@ while True:
             try: 
                 c.send(address[ip].encode()) 
             except KeyError: 
-                c.send("Not Found".encode()) 
-```
-## OUPUT - ARP
-![Screenshot 2024-09-10 083626](https://github.com/user-attachments/assets/abb108c8-b1aa-4cb3-a17f-066e916d4e29)
+                c.send("Not Found".encode())
 
-## PROGRAM - RARP
-```
+server:
+
 import socket 
 s=socket.socket() 
 s.connect(('localhost',8000)) 
 while True: 
- ip=input("Enter logical Address : ") 
- s.send(ip.encode()) 
- print("MAC Address",s.recv(1024).decode()) 
+ip=input("Enter logical Address : ") 
+s.send(ip.encode())
+print("MAC Address",s.recv(1024).decode()) 
+```
+## OUPUT - ARP
+![Screenshot 2024-10-28 143122](https://github.com/user-attachments/assets/4dd178b0-c0f9-4fd5-b7af-e12abd1b9267)
+
+![Screenshot 2024-10-28 143135](https://github.com/user-attachments/assets/27743d3a-3ec6-4b4e-a9dd-304d91f34e5b)
+
+## PROGRAM - RARP
+```
+client :
+
+ 
+import socket 
+s=socket.socket() 
+s.bind(('localhost',9000)) 
+s.listen(5) 
+c,addr=s.accept() 
+address={"6A:08:AA:C2":"192.168.1.100","8A:BC:E3:FA":"192.168.1.99"}; 
+while True: 
+            ip=c.recv(1024).decode() 
+            try: 
+                c.send(address[ip].encode()) 
+            except KeyError: 
+                c.send("Not Found".encode())
+
+server :
+
+import socket 
+s=socket.socket() 
+s.connect(('localhost',9000)) 
+while True: 
+    ip=input("Enter MAC Address : ") 
+    s.send(ip.encode()) 
+    print("Logical Address",s.recv(1024).decode())
 ```
 ## OUPUT -RARP
-![Screenshot 2024-09-10 083633](https://github.com/user-attachments/assets/2bcfde1b-9896-4a01-9c5a-384e6134ddce)
+![Screenshot 2024-10-28 143534](https://github.com/user-attachments/assets/b1db8d65-1126-4e02-8730-0fc214ea5a0a)
+
+![Screenshot 2024-10-28 143545](https://github.com/user-attachments/assets/fa983777-1572-4021-9353-b6dcd3d5d27a)
 
 ## RESULT
 Thus, the python program for simulating ARP protocols using TCP was successfully 
